@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #eef2ff, #fdf2f8, #f0fdf4);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            color: #333;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            background: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-weight: 600;
+            color: #4f46e5;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .controls input,
+        .controls select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .controls input:focus,
+        .controls select:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px rgba(79,70,229,0.1);
+        }
+
+        .container {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #eef2ff; /* soft professional background */
+            padding: 10px;
+            border-bottom: 1px solid #f1f1f1;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .product-info {
+            padding: 15px 20px 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .product-category {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            color: #16a34a;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #4f46e5;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #3730a3;
+        }
+
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            font-size: 18px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>My Product Store</h1>
+    <div class="controls">
+        <input type="text" id="searchInput" placeholder="Search products...">
+        <select id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Home">Home</option>
+        </select>
+    </div>
+</header>
+
+<div class="container" id="productContainer">
+
+    <div class="product-card" data-title="Handmade Bag" data-category="Fashion">
+        <img src= "https://t4.ftcdn.net/jpg/01/10/04/51/360_F_110045173_QgmA3gg5OwTlLNQBqmPdFnkh6sPvsvt8.jpg">
+        <div class="product-info">
+            <div class="product-title">Handmade Bag</div>
+            <div class="product-category">Fashion</div>
+            <div class="product-price">₹899</div>
+            <a href="#" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <div class="product-card" data-title="Wireless Headphones" data-category="Electronics">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/027/862/471/small/headphones-gaming-headset-3d-rendering-listening-audio-electronic-device-photo.jpg">
+        <div class="product-info">
+            <div class="product-title">Wireless Headphones</div>
+            <div class="product-category">Electronics</div>
+            <div class="product-price">₹1,999</div>
+            <a href="#" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <div class="product-card" data-title="Decorative Lamp" data-category="Home">
+        <img src="https://homedecorlo.com/cdn/shop/products/41hgdF5GGcL_195x195@2x.jpg?v=1596036197">
+        <div class="product-info">
+            <div class="product-title">Decorative Lamp</div>
+            <div class="product-category">Home</div>
+            <div class="product-price">₹1,299</div>
+            <a href="#" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <div class="product-card" data-title="Ethnic Dress" data-category="Fashion">
+        <img src="https://www.kanchanfashion.com/cdn/shop/articles/New-Party-Wear-Dresses-in-Pakistan.jpg?v=1661830514&width={width}">
+        <div class="product-info">
+            <div class="product-title">Ethnic Dress</div>
+            <div class="product-category">Fashion</div>
+            <div class="product-price">₹1,499</div>
+            <a href="#" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <div class="product-card" data-title="Smart Watch" data-category="Electronics">
+        <img src="https://www.boat-lifestyle.com/cdn/shop/articles/Artboard_1.png?v=1652873769">
+        <div class="product-info">
+            <div class="product-title">Smart Watch</div>
+            <div class="product-category">Electronics</div>
+            <div class="product-price">₹2,499</div>
+            <a href="#" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <div class="product-card" data-title="Handcrafted Vase" data-category="Home">
+        <img src="https://m.media-amazon.com/images/I/71+68FUYO4L.jpg">
+        <div class="product-info">
+            <div class="product-title">Handcrafted Vase</div>
+            <div class="product-category">Home</div>
+            <div class="product-price">₹699</div>
+            <a href="#" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <div class="product-card" data-title="Leather Wallet" data-category="Fashion">
+        <img src="https://www.leathertalks.com/cdn/shop/files/1_0ddc1afe-4c3b-46e6-a2d7-1ffea76d3b45.jpg?v=1750757267&width=2000">
+        <div class="product-info">
+            <div class="product-title">Leather Wallet</div>
+            <div class="product-category">Fashion</div>
+            <div class="product-price">₹1,099</div>
+            <a href="#" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <div class="product-card" data-title="Bluetooth Speaker" data-category="Electronics">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/066/153/441/small/stylish-portable-bluetooth-speaker-on-vibrant-surface-trendy-surface-photo.jpg">
+        <div class="product-info">
+            <div class="product-title">Bluetooth Speaker</div>
+            <div class="product-category">Electronics</div>
+            <div class="product-price">₹1,799</div>
+            <a href="#" class="btn">View Details</a>
+        </div>
+    </div>
+
+    <div class="product-card" data-title="Cushion Set" data-category="Home">
+        <img src="https://hausandkinder.com/cdn/shop/files/DigitalCushions2_1000x1000_1dd436cb-ad33-426b-9b28-90735d9ef155.jpg?v=1715159457&width=533">
+        <div class="product-info">
+            <div class="product-title">Cushion Set</div>
+            <div class="product-category">Home</div>
+            <div class="product-price">₹899</div>
+            <a href="#" class="btn">View Details</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const products = document.querySelectorAll('.product-card');
+
+    function filterProducts() {
+        const searchText = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+        let visibleCount = 0;
+
+        products.forEach(product => {
+            const title = product.dataset.title.toLowerCase();
+            const category = product.dataset.category;
+
+            const matchesSearch = title.includes(searchText);
+            const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
+
+            if (matchesSearch && matchesCategory) {
+                product.style.display = 'block';
+                visibleCount++;
+            } else {
+                product.style.display = 'none';
+            }
+        });
+
+        let noResultMessage = document.querySelector('.no-results');
+        if (visibleCount === 0) {
+            if (!noResultMessage) {
+                noResultMessage = document.createElement('div');
+                noResultMessage.className = 'no-results';
+                noResultMessage.textContent = 'No products found.';
+                document.getElementById('productContainer').appendChild(noResultMessage);
+            }
+        } else if (noResultMessage) {
+            noResultMessage.remove();
+        }
+    }
+
+    searchInput.addEventListener('input', filterProducts);
+    categoryFilter.addEventListener('change', filterProducts);
+</script>
+
+</body>
+</html>
