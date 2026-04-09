@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Photography</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0d0d0d;
+    color: white;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 42px;
+    margin: 25px;
+    background: linear-gradient(45deg, #ff4ecd, #5b6cff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .sections {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    width: 260px;
+    height: 160px;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+  }
+
+  .card h2 {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+    margin: 0;
+  }
+
+  /* Gallery */
+  .gallery-view {
+    display: none;
+    padding: 20px;
+  }
+
+  .back {
+    margin-bottom: 15px;
+    cursor: pointer;
+    color: #aaa;
+  }
+
+  .gallery {
+    column-count: 3;
+    column-gap: 15px;
+  }
+
+  .gallery img {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.95);
+  }
+
+  .lightbox.active { display: flex; }
+
+  .lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  .close, .prev, .next {
+    position: absolute;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+  }
+
+  .close { top: 20px; right: 30px; }
+  .prev { left: 20px; top: 50%; transform: translateY(-50%); }
+  .next { right: 20px; top: 50%; transform: translateY(-50%); }
+</style>
+</head>
+
+<body>
+
+<h1>📸 My Photography</h1>
+
+<!-- Section Cards -->
+<div class="sections" id="sections">
+
+  <div class="card" onclick="openSection('wildlife')">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKrpNRNXkDoG6BthE9BBWs6F5BmBkZGeUAaQ&s">
+    <h2>Wildlife</h2>
+  </div>
+
+  <div class="card" onclick="openSection('city')">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5VLUxChuk6-Z3Bl3SoS45h8BuLozFXfhqPw&s">
+    <h2>City</h2>
+  </div>
+
+  <div class="card" onclick="openSection('nature')">
+    <img src="https://picsum.photos/id/101/400/300">
+    <h2>Nature</h2>
+  </div>
+
+  <div class="card" onclick="openSection('travel')">
+    <img src="https://picsum.photos/id/201/400/300">
+    <h2>Travel</h2>
+  </div>
+
+</div>
+
+<!-- Gallery View -->
+<div class="gallery-view" id="galleryView">
+  <div class="back" onclick="goBack()">⬅ Back</div>
+  <div class="gallery" id="gallery"></div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="close" onclick="closeLightbox()">&times;</span>
+  <span class="prev" onclick="changeImage(-1)">&#10094;</span>
+  <img id="lightbox-img">
+  <span class="next" onclick="changeImage(1)">&#10095;</span>
+</div>
+
+<script>
+const data = {
+  wildlife: [
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKrpNRNXkDoG6BthE9BBWs6F5BmBkZGeUAaQ&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDsXTfHMLptD0eNFPOLNPTAUZgh8s2UzTQPA&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6eTs2K1DMLWu0QckUhHovr4QXEifgkTi9hw&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHM10LbVPF79sBeW2d-luMhLnALoJbGYPkwg&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRydVPowD3d_km7L_CS5_lNM4syo9LVy8J5RQ&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWW9oGhNxvBQl0TnHPq1XICcLhClwUuEnHig&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzxRozVGStChH0Y5HbnGC4vNkL6gkQS92txw&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzD_g-um4j50mbHqrx5FoAq8BP_jpvdmrHkQ&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK7_HMnmdx2d5tmiJidWnACwLGaNNNdP7Dtw&s"
+  ],
+
+  city: [
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5VLUxChuk6-Z3Bl3SoS45h8BuLozFXfhqPw&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCJkofofCehTMwjTiZBX6G-KjhiJzDeDOcCg&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVnmo3oqr_obiGYRWnRwCjaTAtwkhtnEy21Q&s"
+  ],
+
+  nature: [
+    "https://picsum.photos/id/101/400/500",
+    "https://picsum.photos/id/102/400/500",
+    "https://picsum.photos/id/103/400/500",
+    "https://picsum.photos/id/104/400/500",
+    "https://picsum.photos/id/105/400/500",
+    "https://picsum.photos/id/106/400/500",
+    "https://picsum.photos/id/107/400/500",
+    "https://picsum.photos/id/108/400/500",
+    "https://picsum.photos/id/109/400/500"
+  ],
+
+  travel: [
+    "https://picsum.photos/id/201/400/500",
+    "https://picsum.photos/id/202/400/500",
+    "https://picsum.photos/id/203/400/500",
+    "https://picsum.photos/id/204/400/500",
+    "https://picsum.photos/id/205/400/500",
+    "https://picsum.photos/id/206/400/500",
+    "https://picsum.photos/id/207/400/500",
+    "https://picsum.photos/id/208/400/500",
+    "https://picsum.photos/id/209/400/500"
+  ]
+};
+
+const sections = document.getElementById("sections");
+const galleryView = document.getElementById("galleryView");
+const gallery = document.getElementById("gallery");
+
+function openSection(name) {
+  sections.style.display = "none";
+  galleryView.style.display = "block";
+  gallery.innerHTML = "";
+
+  data[name].forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.onclick = () => openLightbox(src);
+    gallery.appendChild(img);
+  });
+}
+
+function goBack() {
+  galleryView.style.display = "none";
+  sections.style.display = "flex";
+}
+
+/* Lightbox */
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+let currentImages = [];
+let currentIndex = 0;
+
+function openLightbox(src) {
+  currentImages = Array.from(document.querySelectorAll("#gallery img")).map(i => i.src);
+  currentIndex = currentImages.indexOf(src);
+  lightboxImg.src = src;
+  lightbox.classList.add("active");
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("active");
+}
+
+function changeImage(step) {
+  currentIndex = (currentIndex + step + currentImages.length) % currentImages.length;
+  lightboxImg.src = currentImages[currentIndex];
+}
+
+/* Keyboard */
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight") changeImage(1);
+  if (e.key === "ArrowLeft") changeImage(-1);
+  if (e.key === "Escape") closeLightbox();
+});
+
+/* Swipe */
+let startX = 0;
+lightbox.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+lightbox.addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) changeImage(1);
+  else if (endX - startX > 50) changeImage(-1);
+});
+</script>
+
+</body>
+</html>
