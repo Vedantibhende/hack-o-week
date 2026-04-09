@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Ultimate Technical Quizz</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ63pQG_eP_P2MS1U-0i6mxxBYN_QeQCUYSpA&s");
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 80%;
+            max-width: 900px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #6a11cb;
+            color: white;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+
+        button:hover {
+            background-color: #4b0ea8;
+        }
+
+        #result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Ultimate Tech Quiz</h1>
+    <form id="quizForm"></form>
+    <button onclick="checkAnswers()">Submit Quiz</button>
+    <div id="result"></div>
+</div>
+
+<script>
+const questions = [
+    {q:"1. What does CPU stand for?", options:["Central Process Unit","Central Processing Unit","Computer Personal Unit","Central Processor Utility"], answer:1},
+    {q:"2. Which language is used for styling web pages?", options:["HTML","JQuery","CSS","XML"], answer:2},
+    {q:"3. Which is not a programming language?", options:["Python","Java","HTML","C++"], answer:2},
+    {q:"4. What does RAM stand for?", options:["Random Access Memory","Read Access Memory","Run Access Memory","Random Allocation Memory"], answer:0},
+    {q:"5. Which company created Windows?", options:["Apple","Microsoft","Google","IBM"], answer:1},
+    {q:"6. Which HTML tag is used for largest heading?", options:["<h6>","<heading>","<h1>","<head>"], answer:2},
+    {q:"7. Which symbol is used for comments in JavaScript?", options:["//","#","<!-- -->","**"], answer:0},
+    {q:"8. Which device is used to input sound?", options:["Monitor","Keyboard","Mouse","Microphone"], answer:3},
+    {q:"9. Which data structure works on FIFO?", options:["Stack","Queue","Tree","Graph"], answer:1},
+    {q:"10. What does HTTP stand for?", options:["Hyper Text Transfer Protocol","High Transfer Text Protocol","Hyper Tool Transfer Protocol","Hyper Text Transmission Process"], answer:0},
+    {q:"11. Which operator is used for equality in JavaScript?", options:["=","==","===","!="], answer:2},
+    {q:"12. Which is a frontend framework?", options:["Node.js","Django","React","Flask"], answer:2},
+    {q:"13. Which database is NoSQL?", options:["MySQL","MongoDB","Oracle","SQL Server"], answer:1},
+    {q:"14. Which company developed Java?", options:["Microsoft","Sun Microsystems","Google","Apple"], answer:1},
+    {q:"15. Which protocol is used to send emails?", options:["HTTP","FTP","SMTP","TCP"], answer:2}
+];
+
+const form = document.getElementById("quizForm");
+
+questions.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.innerHTML = "<p><strong>" + item.q + "</strong></p>";
+
+    item.options.forEach((option, i) => {
+        div.innerHTML += `
+            <label>
+                <input type="radio" name="q${index}" value="${i}">
+                ${option}
+            </label><br>
+        `;
+    });
+
+    form.appendChild(div);
+});
+
+function checkAnswers() {
+    let score = 0;
+
+    questions.forEach((item, index) => {
+        const selected = document.querySelector(input[name="q${index}"]:checked);
+        if (selected && parseInt(selected.value) === item.answer) {
+            score++;
+        }
+    });
+
+    document.getElementById("result").innerHTML =
+        "You answered " + score + " out of " + questions.length + " questions correctly!";
+}
+</script>
+
+</body>
+</html>
