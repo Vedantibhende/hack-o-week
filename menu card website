@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Urban Bistro Menu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"Segoe UI",sans-serif;
+  background:#0f0f0f;
+  color:#f7f7f7;
+}
+
+/* HEADER */
+header{
+  background:#151515;
+  padding:20px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  font-size:1.6rem;
+  font-weight:bold;
+  color:#ffb347;
+}
+
+nav{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+nav a{
+  color:#ddd;
+  text-decoration:none;
+}
+nav a:hover{
+  color:#ffb347;
+}
+
+/* CART ICON IN HEADER */
+.cart-icon {
+  background: linear-gradient(135deg, #ffb347, #ff8c00);
+  color: #151515;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255,179,71,0.4);
+  position: relative;
+}
+.cart-icon:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 20px rgba(255,179,71,0.6);
+}
+.cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ff4444;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* HERO */
+.hero{
+  background:url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1600&q=80")
+  center/cover no-repeat;
+  padding:110px 20px;
+  text-align:center;
+  position:relative;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+}
+.hero-content{
+  position:relative;
+  max-width:700px;
+  margin:auto;
+}
+.hero h1{
+  font-size:3rem;
+  letter-spacing:3px;
+}
+.hero p{
+  color:#ccc;
+  margin-top:10px;
+}
+
+/* CATEGORY SLIDER */
+.category-slider{
+  text-align:center;
+  margin:60px auto;
+}
+.category-slider h2{
+  color:#ffb347;
+  letter-spacing:2px;
+  margin-bottom:25px;
+}
+.slider{
+  display:flex;
+  gap:25px;
+  overflow-x:auto;
+  padding:10px 20px;
+}
+.slider::-webkit-scrollbar{
+  display:none;
+}
+.category-card{
+  min-width:180px;
+  background:#1a1a1a;
+  border-radius:50%;
+  padding:15px;
+  cursor:pointer;
+  transition:transform .3s;
+}
+.category-card:hover{
+  transform:scale(1.08);
+}
+.category-card img{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  object-fit:cover;
+}
+.category-card p{
+  margin-top:10px;
+  font-size:.9rem;
+}
+
+/* MENU SECTIONS */
+main{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px 80px;
+}
+
+.menu-section{
+  margin-bottom:60px;
+}
+.menu-section h2{
+  color:#ffb347;
+  margin-bottom:10px;
+  border-bottom:2px solid #333;
+  display:inline-block;
+}
+.section-subtitle{
+  color:#aaa;
+  margin-bottom:30px;
+}
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px;
+}
+
+.menu-item{
+  background:#181818;
+  border-radius:12px;
+  overflow:hidden;
+  transition:transform .3s;
+  position: relative;
+}
+.menu-item:hover{
+  transform:translateY(-6px);
+}
+.menu-item img{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+}
+.menu-content{
+  padding:15px;
+}
+.menu-header{
+  display:flex;
+  justify-content:space-between;
+  align-items: flex-start;
+}
+.menu-price{
+  color:#ffb347;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.menu-tag{
+  font-size:.75rem;
+  color:#999;
+  margin:6px 0;
+}
+.menu-desc{
+  font-size:.9rem;
+  color:#ccc;
+  margin-bottom: 12px;
+}
+
+/* ADD TO CART BUTTON */
+.add-to-cart {
+  width: 100%;
+  background: linear-gradient(135deg, #ffb347, #ff8c00);
+  color: #151515;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.add-to-cart:hover {
+  background: linear-gradient(135deg, #ff8c00, #ffb347);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255,179,71,0.4);
+}
+.add-to-cart:active {
+  transform: translateY(0);
+}
+.added {
+  background: linear-gradient(135deg, #4CAF50, #45a049) !important;
+}
+.added:hover {
+  background: linear-gradient(135deg, #45a049, #4CAF50) !important;
+}
+
+/* CART MODAL */
+.cart-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+}
+.cart-modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cart-content {
+  background: #1a1a1a;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  border-radius: 15px;
+  overflow-y: auto;
+  position: relative;
+  animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.cart-header {
+  padding: 20px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.close-cart {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #999;
+  cursor: pointer;
+}
+.cart-items {
+  padding: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.cart-empty {
+  text-align: center;
+  color: #999;
+  padding: 40px 20px;
+}
+.cart-item {
+  display: flex;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid #333;
+}
+.cart-item img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.cart-item-info {
+  flex: 1;
+}
+.cart-item-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.cart-item-price {
+  color: #ffb347;
+  font-weight: bold;
+}
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.qty-btn {
+  background: #333;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qty-btn:hover {
+  background: #ffb347;
+  color: #151515;
+}
+.quantity {
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
+.cart-footer {
+  padding: 20px;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.total-price {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffb347;
+}
+.checkout-btn {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.checkout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76,175,80,0.4);
+}
+
+/* ENHANCED FOOTER */
+footer{
+  background: #151515;
+  padding: 40px 20px 20px;
+  border-top: 2px solid #333;
+  text-align: center;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.footer-section h3 {
+  color: #ffb347;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.footer-section p,
+.footer-section a {
+  color: #ccc;
+  margin-bottom: 8px;
+  text-decoration: none;
+  display: block;
+}
+
+.footer-section a:hover {
+  color: #ffb347;
+}
+
+.contact-info {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #ffb347;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.contact-icon {
+  width: 35px;
+  height: 35px;
+  background: #ffb347;
+  color: #151515;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.footer-bottom {
+  border-top: 1px solid #333;
+  padding-top: 20px;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  header {
+    padding: 15px 20px;
+  }
+  
+  nav {
+    gap: 10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- CART MODAL -->
+<div class="cart-modal" id="cartModal">
+  <div class="cart-content">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="close-cart" id="closeCart">×</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">Your cart is empty</div>
+    </div>
+    <div class="cart-footer">
+      <div class="total-price" id="totalPrice">₹0</div>
+      <button class="checkout-btn" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="logo">Urban Bistro</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Menu</a>
+    <a href="#">Contact</a>
+    <div class="cart-icon" id="cartIcon">
+      🛒
+      <span class="cart-count" id="cartCount">0</span>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Our Menu</h1>
+    <p>Fresh ingredients, bold flavors & handcrafted dishes</p>
+  </div>
+</section>
+
+<!-- CATEGORY SLIDER -->
+<section class="category-slider">
+  <h2>Explore Menu</h2>
+  <div class="slider">
+    <div class="category-card">
+      <img src="https://t4.ftcdn.net/jpg/16/62/04/77/360_F_1662047782_kbUSL9TSKpfLjNJDD6kDl9zgEEedHByH.jpg">
+      <p>Starters</p>
+    </div>
+    <div class="category-card">
+      <img src="https://images.moneycontrol.com/static-mcnews/2023/10/pexels-anil-sharma-10580198-770x433.jpg?impolicy=website&width=770&height=431">
+      <p>Main Course</p>
+    </div>
+    <div class="category-card">
+      <img src="https://iheartumami.com/wp-content/uploads/2018/08/Watermelon-peach-mocktail-recipe.jpg">
+      <p>Drinks</p>
+    </div>
+    <div class="category-card">
+      <img src="https://www.tasteofhome.com/wp-content/uploads/2017/09/exps21585_THCA153054D10_15_4b.jpg">
+      <p>Desserts</p>
+    </div>
+  </div>
+</section>
+<!-- STARTERS -->
+<section class="menu-section">
+  <h2>Starters</h2>
+  <p class="section-subtitle">Perfect beginning</p>
+  <div class="menu-grid">
+    <div class="menu-item" data-name="Chilli Honey Potato" data-price="260" data-img="https://rakskitchen.net/wp-content/uploads/2022/07/honey-chilli.jpg" data-desc="Golden fried potatoes with chilli and honey.">
+      <img src="https://rakskitchen.net/wp-content/uploads/2022/07/honey-chilli.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Chilli Honey Potato</strong>
+          <span class="menu-price">₹260</span>
+        </div>
+        <div class="menu-tag">Chef's Special</div>
+        <p class="menu-desc">Golden fried potatoes with chilli and honey.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Rice Paper Spring Roll" data-price="280" data-img="https://beginwithbalance.com/wp-content/uploads/2024/02/Shrimp-Rice-Paper-Rolls-1.jpg" data-desc="Made with rice paper stuffed with veggies and herbs.">
+      <img src="https://beginwithbalance.com/wp-content/uploads/2024/02/Shrimp-Rice-Paper-Rolls-1.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Rice Paper Spring Roll</strong>
+          <span class="menu-price">₹280</span>
+        </div>
+        <div class="menu-tag">Chef's Special</div>
+        <p class="menu-desc">Made with rice paper stuffed with veggies and herbs.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Bruschetta" data-price="220" data-img="https://www.giallozafferano.com/images/277-27771/Caprese-Bruschetta_1200x800.jpg" data-desc="Toasted bread topped with tomatoes, basil, garlic & olive oil.">
+      <img src="https://www.giallozafferano.com/images/277-27771/Caprese-Bruschetta_1200x800.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Bruschetta</strong>
+          <span class="menu-price">₹220</span>
+        </div>
+        <div class="menu-tag">Chef's Special</div>
+        <p class="menu-desc">Toasted bread topped with tomatoes, basil, garlic & olive oil.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Sushi" data-price="340" data-img="https://static.wixstatic.com/media/d360eb_fde239e920994c36a15ad7cad91722f0~mv2.jpg/v1/fill/w_1606,h_1606,al_c,q_90/IMG_3687-Editar_edited.jpg" data-desc="Vinegared rice with fresh seafood or vegetables.">
+      <img src="https://static.wixstatic.com/media/d360eb_fde239e920994c36a15ad7cad91722f0~mv2.jpg/v1/fill/w_1606,h_1606,al_c,q_90/IMG_3687-Editar_edited.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Sushi</strong>
+          <span class="menu-price">₹340</span>
+        </div>
+        <div class="menu-tag">Chef's Special</div>
+        <p class="menu-desc">Vinegared rice with fresh seafood or vegetables.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Bao Buns" data-price="360" data-img="https://eatlittlebird.com/wp-content/uploads/2022/09/korean-fried-chicken-bao-buns-5.jpg" data-desc="Soft steamed buns filled with savory ingredients.">
+      <img src="https://eatlittlebird.com/wp-content/uploads/2022/09/korean-fried-chicken-bao-buns-5.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Bao Buns</strong>
+          <span class="menu-price">₹360</span>
+        </div>
+        <div class="menu-tag">Chef's Special</div>
+        <p class="menu-desc">Soft steamed buns filled with savory ingredients.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Dumplings" data-price="260" data-img="https://veggieanh.com/wp-content/uploads/2024/04/5541BE44-B353-49FC-BC2C-0D7FD985C819.jpg" data-desc="Dough pockets filled with vegetables, steamed or fried.">
+      <img src="https://veggieanh.com/wp-content/uploads/2024/04/5541BE44-B353-49FC-BC2C-0D7FD985C819.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Dumplings</strong>
+          <span class="menu-price">₹260</span>
+        </div>
+        <div class="menu-tag">Chef's Special</div>
+        <p class="menu-desc">Dough pockets filled with vegetables, steamed or fried.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN COURSE -->
+<section class="menu-section">
+  <h2>Main Course</h2>
+  <p class="section-subtitle">Signature dishes</p>
+  <div class="menu-grid">
+    <div class="menu-item" data-name="Butter Chicken with Naan" data-price="360" data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2CoZKn5I6mH64w699bSykb2n-eXz9CPUmUQ&s" data-desc="Creamy tomato gravy with tender chicken and butter naan.">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2CoZKn5I6mH64w699bSykb2n-eXz9CPUmUQ&s">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Butter Chicken with Naan</strong>
+          <span class="menu-price">₹360</span>
+        </div>
+        <div class="menu-tag">Signature</div>
+        <p class="menu-desc">Creamy tomato gravy with tender chicken and butter naan.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Biryani" data-price="400" data-img="https://static.toiimg.com/thumb/54308405.cms?imgsize=510571&width=800&height=800" data-desc="Aromatic basmati rice with spices and vegetables.">
+      <img src="https://static.toiimg.com/thumb/54308405.cms?imgsize=510571&width=800&height=800">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Biryani</strong>
+          <span class="menu-price">₹400</span>
+        </div>
+        <div class="menu-tag">Dum Cooked</div>
+        <p class="menu-desc">Aromatic basmati rice with spices and vegetables.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Spaghetti Carbonara" data-price="360" data-img="https://www.jocooks.com/wp-content/uploads/2019/06/creamy-carbonara-1-2.jpg" data-desc="Pasta with eggs, cheese, pancetta and black pepper.">
+      <img src="https://www.jocooks.com/wp-content/uploads/2019/06/creamy-carbonara-1-2.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Spaghetti Carbonara</strong>
+          <span class="menu-price">₹360</span>
+        </div>
+        <p class="menu-desc">Pasta with eggs, cheese, pancetta and black pepper.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Steak with Mashed Potatoes" data-price="450" data-img="https://rachaelsgoodeats.com/wp-content/uploads/2023/06/tri-tip-steak-potatoes-27-1025x1536.jpg" data-desc="Grilled steak with creamy mashed potatoes and veggies.">
+      <img src="https://rachaelsgoodeats.com/wp-content/uploads/2023/06/tri-tip-steak-potatoes-27-1025x1536.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Steak with Mashed Potatoes</strong>
+          <span class="menu-price">₹450</span>
+        </div>
+        <p class="menu-desc">Grilled steak with creamy mashed potatoes and veggies.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Moussaka" data-price="400" data-img="https://www.196flavors.com/wp-content/uploads/2016/01/moussaka-4-FP.jpg" data-desc="Baked layered eggplant, minced meat and bechamel sauce.">
+      <img src="https://www.196flavors.com/wp-content/uploads/2016/01/moussaka-4-FP.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Moussaka</strong>
+          <span class="menu-price">₹400</span>
+        </div>
+        <p class="menu-desc">Baked layered eggplant, minced meat and bechamel sauce.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Veggie Lasagna" data-price="400" data-img="https://kristineskitchenblog.com/wp-content/uploads/2022/07/vegetable-lasagna-recipe-18.jpg" data-desc="Layers of pasta, cheese, and vegetables in tomato sauce.">
+      <img src="https://kristineskitchenblog.com/wp-content/uploads/2022/07/vegetable-lasagna-recipe-18.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Veggie Lasagna</strong>
+          <span class="menu-price">₹400</span>
+        </div>
+        <p class="menu-desc">Layers of pasta, cheese, and vegetables in tomato sauce.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Ratatouille" data-price="450" data-img="https://delishglobe.com/wp-content/uploads/2024/09/Ratatouille-1.png" data-desc="Stewed seasonal vegetables with herbs and olive oil.">
+      <img src="https://delishglobe.com/wp-content/uploads/2024/09/Ratatouille-1.png">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Ratatouille</strong>
+          <span class="menu-price">₹450</span>
+        </div>
+        <p class="menu-desc">Stewed seasonal vegetables with herbs and olive oil.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Mushroom Risotto" data-price="300" data-img="https://louisianacookin.com/wp-content/uploads/2023/09/web-duckrisotto_1032.jpg" data-desc="Creamy Arborio rice cooked with mushrooms and parmesan.">
+      <img src="https://louisianacookin.com/wp-content/uploads/2023/09/web-duckrisotto_1032.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Mushroom Risotto</strong>
+          <span class="menu-price">₹300</span>
+        </div>
+        <p class="menu-desc">Creamy Arborio rice cooked with mushrooms and parmesan.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Spinach Ricotta Cannelloni" data-price="400" data-img="https://dellugo.co.uk/cdn/shop/articles/20240312101539-ricotta-20and-20spinach-20cannelloni-20on-20white-20website_2000x.jpg?v=1710238970" data-desc="Pasta tubes stuffed with spinach, ricotta and baked in sauce.">
+      <img src="https://dellugo.co.uk/cdn/shop/articles/20240312101539-ricotta-20and-20spinach-20cannelloni-20on-20white-20website_2000x.jpg?v=1710238970">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Spinach Ricotta Cannelloni</strong>
+          <span class="menu-price">₹400</span>
+        </div>
+        <p class="menu-desc">Pasta tubes stuffed with spinach, ricotta and baked in sauce.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DRINKS -->
+<section class="menu-section">
+  <h2>Drinks</h2>
+  <p class="section-subtitle">Sip, relax and refresh</p>
+  <div class="menu-grid">
+    <div class="menu-item" data-name="Raspberry Mojito" data-price="280" data-img="https://www.acouplecooks.com/wp-content/uploads/2021/04/Raspberry-Mojito-002.jpg" data-desc="Refreshing mint, lime and raspberry mocktail.">
+      <img src="https://www.acouplecooks.com/wp-content/uploads/2021/04/Raspberry-Mojito-002.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Raspberry Mojito</strong>
+          <span class="menu-price">₹280</span>
+        </div>
+        <p class="menu-desc">Refreshing mint, lime and raspberry mocktail.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Margarita" data-price="300" data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv44_gL_GJIWm0UT3t0OHCB1RD5wZX6oT_6Q&s" data-desc="Classic lime margarita with salt rim.">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv44_gL_GJIWm0UT3t0OHCB1RD5wZX6oT_6Q&s">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Margarita</strong>
+          <span class="menu-price">₹300</span>
+        </div>
+        <p class="menu-desc">Classic lime margarita with salt rim.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Blue Lagoon Mocktail" data-price="380" data-img="https://www.artofdrink.com/wp-content/uploads/2010/08/blue-lagoon-cocktail-720x720.jpg" data-desc="Vibrant blue curacao mocktail with lemonade.">
+      <img src="https://www.artofdrink.com/wp-content/uploads/2010/08/blue-lagoon-cocktail-720x720.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Blue Lagoon Mocktail</strong>
+          <span class="menu-price">₹380</span>
+        </div>
+        <p class="menu-desc">Vibrant blue curacao mocktail with lemonade.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Shirley Temple" data-price="350" data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAez2swZmDB2cVfIMckQU_N7vaZ327mBYJ2w&s" data-desc="Ginger ale with grenadine and cherries.">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAez2swZmDB2cVfIMckQU_N7vaZ327mBYJ2w&s">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Shirley Temple</strong>
+          <span class="menu-price">₹350</span>
+        </div>
+        <p class="menu-desc">Ginger ale with grenadine and cherries.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Virgin Mary" data-price="300" data-img="https://makemineamocktail.com/wp-content/uploads/2020/02/virgin-mary-mocktail-5.jpg" data-desc="Spicy tomato juice with lemon and spices.">
+      <img src="https://makemineamocktail.com/wp-content/uploads/2020/02/virgin-mary-mocktail-5.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Virgin Mary</strong>
+          <span class="menu-price">₹300</span>
+        </div>
+        <p class="menu-desc">Spicy tomato juice with lemon and spices.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Peach Iced Tea" data-price="280" data-img="https://foodtasia.com/wp-content/uploads/2021/08/peach-tea-11.jpg" data-desc="Sweet peach tea served chilled with ice.">
+      <img src="https://foodtasia.com/wp-content/uploads/2021/08/peach-tea-11.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Peach Iced Tea</strong>
+          <span class="menu-price">₹280</span>
+        </div>
+        <p class="menu-desc">Sweet peach tea served chilled with ice.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESSERTS -->
+<section class="menu-section">
+  <h2>Desserts</h2>
+  <p class="section-subtitle">Sweet endings</p>
+  <div class="menu-grid">
+    <div class="menu-item" data-name="Tiramisu" data-price="280" data-img="https://baranbakery.com/wp-content/uploads/2024/05/Tiramisu-5-1-7.jpg" data-desc="Coffee soaked ladyfingers with mascarpone cream.">
+      <img src="https://baranbakery.com/wp-content/uploads/2024/05/Tiramisu-5-1-7.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Tiramisu</strong>
+          <span class="menu-price">₹280</span>
+        </div>
+        <p class="menu-desc">Coffee soaked ladyfingers with mascarpone cream.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Blueberry Cheesecake" data-price="250" data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfVC_d5x-eabRAD96zTIP1zTiM4ttL_G2eRg&s" data-desc="Creamy cheesecake topped with blueberry compote.">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfVC_d5x-eabRAD96zTIP1zTiM4ttL_G2eRg&s">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Blueberry Cheesecake</strong>
+          <span class="menu-price">₹250</span>
+        </div>
+        <p class="menu-desc">Creamy cheesecake topped with blueberry compote.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Baklava" data-price="220" data-img="https://cleobuttera.com/wp-content/uploads/2018/03/lifted-baklava.jpg" data-desc="Layered pastry with nuts and honey syrup.">
+      <img src="https://cleobuttera.com/wp-content/uploads/2018/03/lifted-baklava.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Baklava</strong>
+          <span class="menu-price">₹220</span>
+        </div>
+        <p class="menu-desc">Layered pastry with nuts and honey syrup.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Rasmalai" data-price="220" data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQKRN8_L8bzbrsJNA3ksQpgMMD8ynTG6aUnQ&s" data-desc="Soft cheese balls in thickened sweetened milk.">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQKRN8_L8bzbrsJNA3ksQpgMMD8ynTG6aUnQ&s">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Rasmalai</strong>
+          <span class="menu-price">₹220</span>
+        </div>
+        <p class="menu-desc">Soft cheese balls in thickened sweetened milk.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Pavlova" data-price="220" data-img="https://assets.tmecosys.com/image/upload/t_web_rdp_recipe_584x480_1_5x/img/recipe/ras/Assets/00650E92-9320-4EB9-9EBE-A7CAAE0A6698/Derivates/0520C594-F142-49ED-8BBD-F29450DBCC16.jpg" data-desc="Meringue base topped with whipped cream and fruits.">
+      <img src="https://assets.tmecosys.com/image/upload/t_web_rdp_recipe_584x480_1_5x/img/recipe/ras/Assets/00650E92-9320-4EB9-9EBE-A7CAAE0A6698/Derivates/0520C594-F142-49ED-8BBD-F29450DBCC16.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Pavlova</strong>
+          <span class="menu-price">₹220</span>
+        </div>
+        <p class="menu-desc">Meringue base topped with whipped cream and fruits.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Gulab Jamun" data-price="220" data-img="https://almondhouse.com/cdn/shop/files/1_IMG_9491_1e1968b7-b144-49ba-a4ed-2659e95a3bcb.jpg" data-desc="Deep-fried milk dough balls in rose syrup.">
+      <img src="https://almondhouse.com/cdn/shop/files/1_IMG_9491_1e1968b7-b144-49ba-a4ed-2659e95a3bcb.jpg">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Gulab Jamun</strong>
+          <span class="menu-price">₹220</span>
+        </div>
+        <p class="menu-desc">Deep-fried milk dough balls in rose syrup.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="menu-item" data-name="Churros" data-price="220" data-img="https://www.recipetineats.com/tachyon/2016/08/Churros_9.jpg?resize=900%2C1260&zoom=0.72" data-desc="Crispy fried dough with cinnamon sugar and dip.">
+      <img src="https://www.recipetineats.com/tachyon/2016/08/Churros_9.jpg?resize=900%2C1260&zoom=0.72">
+      <div class="menu-content">
+        <div class="menu-header">
+          <strong>Churros</strong>
+          <span class="menu-price">₹220</span>
+        </div>
+        <p class="menu-desc">Crispy fried dough with cinnamon sugar and dip.</p>
+        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+© 2026 Urban Bistro · Nagpur
+</footer>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+function addToCart(button) {
+  const menuItem = button.closest('.menu-item');
+  const item = {
+    id: Date.now() + Math.random(),
+    name: menuItem.dataset.name,
+    price: parseInt(menuItem.dataset.price),
+    img: menuItem.dataset.img,
+    desc: menuItem.dataset.desc,
+    quantity: 1
+  };
+
+  // Check if item already exists in cart
+  const existingItem = cart.find(cartItem => cartItem.name === item.name);
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push(item);
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+  button.textContent = 'Added!';
+  button.classList.add('added');
+  
+  setTimeout(() => {
+    button.textContent = 'Add to Cart';
+    button.classList.remove('added');
+  }, 1500);
+}
+
+function updateCartCount() {
+  const count = cart.reduce((total, item) => total + item.quantity, 0);
+  document.getElementById('cartCount').textContent = count;
+}
+
+function updateCartDisplay() {
+  const cartItemsEl = document.getElementById('cartItems');
+  const totalPriceEl = document.getElementById('totalPrice');
+  
+  if (cart.length === 0) {
+    cartItemsEl.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
+    totalPriceEl.textContent = '₹0';
+    return;
+  }
+
+  cartItemsEl.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <img src="${item.img}" alt="${item.name}">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">₹${item.price}</div>
+        <div class="quantity-controls">
+          <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)">−</button>
+          <span class="quantity">${item.quantity}</span>
+          <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  totalPriceEl.textContent = ₹${total};
+}
+
+function updateQuantity(id, change) {
+  cart = cart.map(item => {
+    if (item.id === id) {
+      item.quantity = Math.max(1, item.quantity + change);
+      if (item.quantity === 0) {
+        return null;
+      }
+    }
+    return item;
+  }).filter(Boolean);
+  
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+  updateCartDisplay();
+}
+
+function checkout() {
+  if (cart.length === 0) return;
+  
+  alert(Order Summary:\nTotal Items: ${cart.reduce((sum, item) => sum + item.quantity, 0)}\nTotal Amount: ₹${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}\n\nThank you for your order!);
+  cart = [];
+  localStorage.removeItem('cart');
+  updateCartCount();
+  updateCartDisplay();
+  document.getElementById('cartModal').classList.remove('active');
+}
+
+// Event listeners
+document.getElementById('cartIcon').addEventListener('click', () => {
+  document.getElementById('cartModal').classList.add('active');
+  updateCartDisplay();
+});
+
+document.getElementById('closeCart').addEventListener('click', () => {
+  document.getElementById('cartModal').classList.remove('active');
+});
+
+// Close modal when clicking outside
+document.getElementById('cartModal').addEventListener('click', (e) => {
+  if (e.target.id === 'cartModal') {
+    document.getElementById('cartModal').classList.remove('active');
+  }
+});
+
+// Initialize cart count on load
+updateCartCount();
+</script>
+
+</body>
+</html>
